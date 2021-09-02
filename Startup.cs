@@ -12,7 +12,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using WebAPIA2.Data;
+using WebAPIA2.Handler;
 
 namespace WebAPIA2
 {
@@ -31,6 +35,12 @@ namespace WebAPIA2
             services.AddDbContext<WebAPIA2DBContext>(options => options.UseSqlite(Configuration.GetConnectionString("WebAPIA2Connection")));
             services.AddControllers();
             services.AddScoped<IUsersAPIRepo, DBUsersAPIRepo>();
+            services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, VersionHandler>("MyAuthentication", null);
+            services.AddScoped<IAuthRepo, DBAuthRepo>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("userName"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +61,12 @@ namespace WebAPIA2
             {
                 endpoints.MapControllers();
             });
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
         }
     }
 }
