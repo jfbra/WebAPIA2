@@ -30,6 +30,7 @@ namespace WebAPIA2
         {
             services.AddDbContext<WebAPIA2DBContext>(options => options.UseSqlite(Configuration.GetConnectionString("WebAPIA2Connection")));
             services.AddControllers();
+            services.AddScoped<IUsersAPIRepo, DBUsersAPIRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
