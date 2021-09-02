@@ -7,14 +7,15 @@ using WebAPIA2.Models;
 
 namespace WebAPIA2.Data
 {
-    public class WebAPIDBContext : DbContext
+    public class WebAPIA2DBContext : DbContext
     {
-        public WebAPIDBContext(DbContextOptions<WebAPIDBContext> options) : base(options) { }
+        public WebAPIA2DBContext(DbContextOptions<WebAPIA2DBContext> options) : base(options) { }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = WebAPIDatabase.sqlite");
+            optionsBuilder.UseSqlite("Data Source = WebAPIA2Database.sqlite");
         }
     }
 }
