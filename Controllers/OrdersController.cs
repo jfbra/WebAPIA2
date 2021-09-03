@@ -41,5 +41,25 @@ namespace WebAPIA2.Controllers
             o = os.LastOrDefault(e => e.UserName == o.UserName && e.ProductID == o.ProductID && e.Quantity == o.Quantity);
             return Created("ok", o);
         }
+
+        [Authorize(AuthenticationSchemes = "MyAuthentication")]
+        [Authorize(Policy = "UserOnly")]
+        [HttpGet("PurchaseSingleItem/{id}")]
+        public async Task<ActionResult<OrderOutDto>> PurchaseSingleItemAsync(int id)
+        {
+            ClaimsIdentity ci = HttpContext.User.Identities.FirstOrDefault();
+            Claim c = ci.FindFirst("userName");
+            string userName = c.Value;
+            Order o = new Order
+            {
+                UserName = userName,
+                ProductID = id,
+                Quantity = 1
+            };
+            await _repository.AddOrderAsync(o);
+            IEnumerable<Order> os = await _repository.GetAllOrdersAsync();
+            o = os.LastOrDefault(e => e.UserName == o.UserName && e.ProductID == o.ProductID && e.Quantity == o.Quantity);
+            return Created("ok", o);
+        } 
     }
 }
