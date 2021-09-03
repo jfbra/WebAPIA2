@@ -37,6 +37,7 @@ namespace WebAPIA2
             services.AddScoped<IUsersAPIRepo, DBUsersAPIRepo>();
             services.AddAuthentication().AddScheme<AuthenticationSchemeOptions, VersionHandler>("MyAuthentication", null);
             services.AddScoped<IAuthRepo, DBAuthRepo>();
+            services.AddScoped<IOrdersAPIRepo, DBOrdersAPIRepo>();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("UserOnly", policy => policy.RequireClaim("userName"));

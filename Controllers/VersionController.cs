@@ -15,13 +15,6 @@ namespace WebAPIA2.Controllers
     [ApiController]
     public class VersionController : Controller
     {
-        private readonly IAuthRepo _repository;
-
-        public VersionController(IAuthRepo repository)
-        {
-            _repository = repository;
-        }
-
         [Authorize(AuthenticationSchemes = "MyAuthentication")]
         [Authorize(Policy = "UserOnly")]
         [HttpGet("GetVersionA")]
