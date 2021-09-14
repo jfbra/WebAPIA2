@@ -8,12 +8,9 @@ namespace WebAPIA2.Dtos
 {
     public class UserRegInputDto
     {
-        [Required]
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
-        [Required]
-        public string Address { get; set;
-        }
+        public string Address { get; set; }
     }
 }

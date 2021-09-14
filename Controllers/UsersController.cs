@@ -23,6 +23,9 @@ namespace WebAPIA2.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<string>> RegisterUserAsync(UserRegInputDto user)
         {
+            if (user.UserName == "")
+                return Ok("Invalid username");
+
             string return_message;
             User u = new User
             {
@@ -34,7 +37,7 @@ namespace WebAPIA2.Controllers
             if (result == true)
             {
                 await _repository.AddUserAsync(u);
-                return_message = "User succesfully registered.";
+                return_message = "User successfully registered.";
             }
             else
             {
